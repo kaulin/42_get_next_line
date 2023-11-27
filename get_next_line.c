@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 13:02:13 by jajuntti          #+#    #+#             */
-/*   Updated: 2023/11/27 17:41:48 by jajuntti         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:59:45 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ char	*get_next_line(int fd)
 			return (clean(next_line));
 		buffer[bytes_read] = 0;
 		end_of_line = ft_strchr(buffer, '\n');
+		if (end_of_line)
+			return (clean(form_nl(next_line, buffer, end_of_line)));
+		end_of_line = ft_strchr(buffer, 0);
 		if (end_of_line)
 			return (clean(form_nl(next_line, buffer, end_of_line)));
 		next_line = form_nl(next_line, buffer, end_of_line);
