@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:56:53 by jajuntti          #+#    #+#             */
-/*   Updated: 2023/11/28 12:14:24 by jajuntti         ###   ########.fr       */
+/*   Updated: 2023/11/30 10:24:15 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,34 @@ int	ft_strlen(char *str)
 	while (str[len])
 		len++;
 	return (len);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char	*to;
+	unsigned char	*from;
+	size_t			i;
+
+	to = (unsigned char *)dst;
+	from = (unsigned char *)src;
+	i = 0;
+	if (src == dst)
+		return (dst);
+	while (i < n)
+	{
+		to[i] = from[i];
+		i++;
+	}
+	return (dst);
+}
+
+// Frees one argument pointer also resetting it to null, and returns the other
+static char	*clean(char *waste_pointer, char *return_pointer)
+{
+	if (waste_pointer)
+	{
+		free(waste_pointer);
+		waste_pointer = NULL;
+	}
+	return (return_pointer);
 }
