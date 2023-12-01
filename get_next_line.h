@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 13:02:42 by jajuntti          #+#    #+#             */
-/*   Updated: 2023/11/30 10:39:21 by jajuntti         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:08:54 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ char		*get_next_line(int fd);
 char		*ft_strchr(char *s, int c);
 int			ft_strlen(char *str);
 void		*ft_memcpy(void *dst, const void *src, size_t n);
-static char	*clean(char *waste_pointer, char *return_pointer);
+char		*clean(char *waste_pointer, char *return_pointer);
 
 #endif

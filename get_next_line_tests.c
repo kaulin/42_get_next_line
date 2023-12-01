@@ -22,6 +22,18 @@ int	main(int argc, char *argv[])
 	if (!next_line)
 		return (error("Error getting next line"));
 	puts(next_line);
+	next_line = get_next_line(fd);
+	if (!next_line)
+		return (error("Error getting next line"));
+	puts(next_line);
+	next_line = get_next_line(fd);
+	if (!next_line)
+		return (error("Error getting next line"));
+	puts(next_line);
+	next_line = get_next_line(fd);
+	if (!next_line)
+		return (error("Error getting next line"));
+	puts(next_line);
 	free(next_line);
 	if (close(fd))
 		return (error("Error closing file"));

@@ -31,11 +31,11 @@ static char	*merge(char *line, char *buffer, char *end_of_line)
 	int		new_len;
 	char	*new_str;
 
-	old_len = 0;
+	old_len;
 	new_len = calculate_merged_length(line, buffer, end_of_line);
 	new_str = malloc(new_len + 1);
 	if (!new_str)
-		return (clean(line, NULL));
+		return(clean(line, NULL));
 	if (line && *line)
 	{
 		old_len = ft_strlen(line);
@@ -47,44 +47,43 @@ static char	*merge(char *line, char *buffer, char *end_of_line)
 	return (clean(line, new_str));
 }
 
-static int	read_buffer(int fd, char *buffer, int *end_of_file)
+static char	*read_recursively(int fd, char *buffer, char *line, int end_of_file)
 {
-	int	bytes_read;
+	int		bytes_read;
+	char	*merged_line;
+	char	*end_of_line;
 
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	if (bytes_read < 0)
-		return (1);
-	if (bytes_read < BUFFER_SIZE)
-		*end_of_file = 1;
-	buffer[bytes_read] = 0;
-	return (0);
+	if (!*buffer)
+	{
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (clean(line, NULL));
+		buffer[bytes_read] = 0;
+		if (bytes_read < BUFFER_SIZE)
+			end_of_file = 1;
+	}
+	end_of_line = ft_strchr(buffer, '\n');
+	merged_line = merge(line, buffer, end_of_line);
+	if (!merged_line)
+		return (NULL);
+	if (end_of_line)
+		ft_memcpy(buffer, end_of_line, ft_strlen(end_of_line + 1) + 1);
+	if (!end_of_line || !end_of_file)
+	{
+		buffer[0] = 0;
+		line = read_recursively(fd, buffer, merged_line, end_of_file);
+	}
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
-	char		*line;
-	int			end_of_file;
-	char		*end_of_line;
 
-	line = NULL;
-	end_of_file = 0;
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
-		buffer[0] = 0;
+		*buffer = 0;
 		return (NULL);
 	}
-	while ("There is stuff to do")
-	{
-		if (*buffer == 0)
-			if (read_buffer(fd, buffer, &end_of_file))
-				return (clean(line, NULL));
-		end_of_line = ft_strchr(buffer, '\n');
-		line = merge(line, buffer, end_of_line);
-		if (end_of_line)
-			ft_memcpy(buffer, end_of_line + 1, ft_strlen(end_of_line + 1) + 1);
-		if (!line || end_of_line || end_of_file)
-			return (line);
-		buffer[0] = 0;
-	}
+	return (read_recursively(fd, buffer, NULL, 0));
 }

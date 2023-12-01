@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:56:53 by jajuntti          #+#    #+#             */
-/*   Updated: 2023/11/30 10:24:15 by jajuntti         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:00:52 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 }
 
 // Frees one argument pointer also resetting it to null, and returns the other
-static char	*clean(char *waste_pointer, char *return_pointer)
+char	*clean(char *waste_pointer, char *return_pointer)
 {
 	if (waste_pointer)
 	{
