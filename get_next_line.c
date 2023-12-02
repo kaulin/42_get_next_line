@@ -12,6 +12,17 @@
 
 #include "get_next_line.h"
 
+static int	check_params(int fd, char *buffer)
+{
+	if (fd < 0 || BUFFER_SIZE <= 0
+		|| BUFFER_SIZE >= 2147483647 || read(fd, 0, 0) < 0)
+	{
+		ft_memset(buffer, 0, BUFFER_SIZE + 1);
+		return (1);
+	}
+	return (0);
+}
+
 static int	calculate_merged_length(char *line, char *buffer, char *line_end)
 {
 	int		len;
@@ -55,7 +66,7 @@ static int	read_buffer(int fd, char *buffer, int *file_end)
 
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read < 0 || buffer == NULL)
-	{	
+	{
 		ft_memset(buffer, 0, BUFFER_SIZE + 1);
 		return (1);
 	}
@@ -74,11 +85,8 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	file_end = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{
-		ft_memset(buffer, 0, BUFFER_SIZE + 1);
+	if (check_params(fd, buffer))
 		return (NULL);
-	}
 	while ("There is stuff to do")
 	{
 		if (*buffer == 0)

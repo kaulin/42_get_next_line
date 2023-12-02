@@ -10,7 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+
+static int	check_params(int fd, char *buffer)
+{
+	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
+	{
+		ft_memset(buffer, 0, BUFFER_SIZE + 1);
+		return (1);
+	}
+	return (0);
+}
 
 static int	calculate_merged_length(char *line, char *buffer, char *line_end)
 {
@@ -55,7 +65,7 @@ static int	read_buffer(int fd, char *buffer, int *file_end)
 
 	bytes_read = read(fd, buffer, BUFFER_SIZE);
 	if (bytes_read < 0 || buffer == NULL)
-	{	
+	{
 		ft_memset(buffer, 0, BUFFER_SIZE + 1);
 		return (1);
 	}
@@ -67,27 +77,27 @@ static int	read_buffer(int fd, char *buffer, int *file_end)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffs[FD_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	int			file_end;
 	char		*line_end;
 
 	line = NULL;
 	file_end = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{
-		ft_memset(buffer, 0, BUFFER_SIZE + 1);
+	if (fd < 0 || fd >= FD_MAX)
 		return (NULL);
-	}
-	while ("There is stuff to do")
+	if (check_params(fd, buffs[fd]))
+		return (NULL);
+	while ("Things need doing")
 	{
-		if (*buffer == 0)
-			if (read_buffer(fd, buffer, &file_end) || (!line && *buffer == 0))
+		if (buffs[fd][0] == 0)
+			if (read_buffer(fd, buffs[fd], &file_end)
+				|| (!line && buffs[fd][0] == 0))
 				return (clean(line, NULL));
-		line_end = ft_strchr(buffer, '\n');
-		line = merge(line, buffer, line_end);
+		line_end = ft_strchr(buffs[fd], '\n');
+		line = merge(line, buffs[fd], line_end);
 		if (line_end)
-			ft_memcpy(buffer, line_end + 1, ft_strlen(line_end + 1) + 1);
+			ft_memcpy(buffs[fd], line_end + 1, ft_strlen(line_end + 1) + 1);
 		if (!line || line_end || file_end)
 			return (line);
 	}
