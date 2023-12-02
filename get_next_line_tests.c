@@ -18,23 +18,14 @@ int	main(int argc, char *argv[])
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (error("Error opening file"));
-	next_line = get_next_line(fd);
-	if (!next_line)
-		return (error("Error getting next line"));
-	puts(next_line);
-	next_line = get_next_line(fd);
-	if (!next_line)
-		return (error("Error getting next line"));
-	puts(next_line);
-	next_line = get_next_line(fd);
-	if (!next_line)
-		return (error("Error getting next line"));
-	puts(next_line);
-	next_line = get_next_line(fd);
-	if (!next_line)
-		return (error("Error getting next line"));
-	puts(next_line);
-	free(next_line);
+	while ("stuff to get")
+	{
+		next_line = get_next_line(fd);
+		if (!next_line)
+			return (error("End reached or error getting next line"));
+		puts(next_line);
+		free(next_line);
+	}
 	if (close(fd))
 		return (error("Error closing file"));
 	return (0);

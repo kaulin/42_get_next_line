@@ -14,7 +14,7 @@
 
 static int	check_params(int fd, char *buffer)
 {
-	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
+	if (read(fd, 0, 0) < 0 || BUFFER_SIZE <= 0)
 	{
 		ft_memset(buffer, 0, BUFFER_SIZE + 1);
 		return (1);
