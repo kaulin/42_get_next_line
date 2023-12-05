@@ -2,16 +2,11 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
+/*
 static int	error(char *error)
 {
 	puts(error);
 	return (1);
-}
-
-static int	*clean_array(int *array)
-{
-	free(array);
-	return (NULL);
 }
 
 static void	put_file(int fd)
@@ -27,6 +22,13 @@ static void	put_file(int fd)
 	}
 	puts("");
 }
+*/
+
+static int	*clean_array(int *array)
+{
+	free(array);
+	return (NULL);
+}
 
 static void	put_files(int *fd_array)
 {
@@ -41,16 +43,18 @@ static void	put_files(int *fd_array)
 	while (printed)
 	{
 		printed = 0;
-		while (fd_array[index] >= 0)
+		while (fd_array[index] > 0)
 		{
 			next_line = get_next_line(fd_array[index]);
 			if (next_line)
 			{
-				printf("FD-%d, line %d = %s", index, line_counter, next_line);
+				printf("FD-%d, line %d = %s", fd_array[index], line_counter, next_line);
 				printed = 1;
-				free(next_line);
-				next_line = NULL;
 			}
+			else
+				close(fd_array[index]);
+			free(next_line);
+			next_line = NULL;
 			index++;
 		}
 		puts("");
@@ -84,7 +88,6 @@ static int *open_files(int argc, char *argv[])
 
 int	main(int argc, char *argv[])
 {
-	int		fd;
 	int		*fd_array;
 	int		index;
 
@@ -94,22 +97,10 @@ int	main(int argc, char *argv[])
 		puts("Need at least one filepath");
 		return (0);
 	}
-	if (argc == 2)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd < 0)
-			return (error("Error opening file"));
-		put_file(fd);
-		if (close(fd))
-			return (error("Error closing file"));
-	}
-	else
-	{
-		fd_array = open_files(argc, argv);
-		if (!fd_array)
-			return (1);
-		put_files(fd_array);
-		clean_array(fd_array);
-	}
+	fd_array = open_files(argc, argv);
+	if (!fd_array)
+		return (1);
+	put_files(fd_array);
+	clean_array(fd_array);
 	return (0);
 }
