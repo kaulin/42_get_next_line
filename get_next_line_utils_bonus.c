@@ -6,7 +6,7 @@
 /*   By: jajuntti <jajuntti@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:56:53 by jajuntti          #+#    #+#             */
-/*   Updated: 2023/12/01 10:57:31 by jajuntti         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:32:51 by jajuntti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ void	*ft_memset(void *b, int c, size_t len)
 // Frees one argument pointer also resetting it to null, and returns the other
 char	*clean(char *waste_pointer, char *return_pointer)
 {
-	if (waste_pointer)
-	{
-		free(waste_pointer);
-		waste_pointer = NULL;
-	}
+	free(waste_pointer);
+	waste_pointer = NULL;
 	return (return_pointer);
 }
